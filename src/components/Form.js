@@ -12,10 +12,12 @@ const Form = () => {
     const [content, setContent] = useState('')
     const [status, setStatus] = useState(true)
 
+    const baseURL = 'http://localhost:4000'
+
     const handleSubmit = e => {
         e.preventDefault()
 
-        axios.post('/posts', {title, content, status, userId}, {
+        axios.post(`${baseURL}/posts`, {title, content, status, userId}, {
             headers: {
                 authorization: token
             }

@@ -21,6 +21,7 @@ module.exports = {
       res.sendStatus(400);
     }
   },
+
   getCurrentUserPosts: async (req, res) => {
     try {
         const { userId } = req.params
@@ -47,9 +48,10 @@ module.exports = {
     try {
       const { title, content, status, userId } = req.body;
       await Post.create({
-        title: title,
-        content: content,
+        title,
+        content,
         privateStatus: status,
+        userId
       });
       res.sendStatus(200);
     } catch (err) {

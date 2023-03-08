@@ -5,28 +5,21 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const createToken = (username, id) => {
-    jwt.sign(
-        {
-            username, 
-            id
-        },
-        SECRET,
-        {
-            expiresIn: '2 Days'
-        })
+    return jwt.sign({username, id}, SECRET, {expiresIn: '2 Days'})
 }
 
 module.exports = {
     register: async (req, res) => {
+        console.log(req.body)
         try {
             const { username, password } = req.body
-            const foundUser = await User.findOne({where: {username: username}})
+            const foundUser = await User.findOne({where: {username}})
             if (foundUser) {
                 res.status(400).send('cannot create user - that username is already taken')
             } else {
-                const salt = bcrypt.genSaltSync(10)
+                const salt = bcrypt.genSaltSync(5)
                 const hash = bcrypt.hashSync(password, salt)
-                const newUser = await User.create({username: username, hashedPass: hash})
+                const newUser = await User.create({username, hashedPass: hash})
                 const token = createToken(newUser.dataValues.username, newUser.dataValues.id)
                 const exp = Date.now() + 1000 * 60 * 60 * 48
                 res.status(200).send({
@@ -43,17 +36,18 @@ module.exports = {
     },
 
     login: async (req, res) => {
+        
         try {
             const { username, password } = req.body
-            const foundUser = await User.findOne({where: {username: username}})
+            const foundUser = await User.findOne({where: {username}})
             if (foundUser) {
                 const isAuthenticated = bcrypt.compareSync(password, foundUser.hashedPass)
                 if (isAuthenticated) {
-                    const token = createToken(newUser.dataValues.username, newUser.dataValues.id)
+                    const token = createToken(foundUser.dataValues.username, foundUser.dataValues.id)
                     const exp = Date.now() + 1000 * 60 * 60 * 48
                     res.status(200).send({
-                        username: newUser.dataValues.username,
-                        userId: newUser.dataValues.id,
+                        username: foundUser.dataValues.username,
+                        userId: foundUser.dataValues.id,
                         token,
                         exp
                     })

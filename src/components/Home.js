@@ -8,8 +8,10 @@ const Home = () => {
 
     const [posts, setPosts] = useState([])
 
+    const baseURL = 'http://localhost:4000'
+
     useEffect(() => {
-        axios.get('/posts')
+        axios.get(`${baseURL}/posts`)
         .then(res => {
             if (userId) {
                 const otherUsersPosts = res.data.filter(post => userId !== post.userId)

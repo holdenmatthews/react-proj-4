@@ -7,13 +7,13 @@ const Auth = () => {
    const [password, setPassword] = useState('')
    const [register, setRegister] = useState(true)
 
-   const baseURL = 'https://socialmtn.devmountain.com'
+   const baseURL = 'http://localhost:4000'
 
    const authCtx = useContext(AuthContext)
  
    const submitHandler = e => {
        e.preventDefault()
- 
+       
        register ? (
         axios.post(`${baseURL}/register`, {username, password})
             .then((res) => {
@@ -30,7 +30,6 @@ const Auth = () => {
             .then((res) => {
                 console.log(res.data)
                 authCtx.login(res.data.token, res.data.exp, res.data.userId)
-
             })
             .catch((err) => {
                 console.log(err)
