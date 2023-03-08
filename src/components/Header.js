@@ -38,9 +38,9 @@ const Header = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink style={styleActiveLink} to="auth">
-                Login or Register
-              </NavLink>
+              <button className="logout-btn" onClick={() => authCtx.logout()}>
+                Logout
+              </button>
             </li>
           </ul>
         ) : (
