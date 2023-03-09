@@ -12,7 +12,7 @@ module.exports = {
 
         //no headerToken ? immediately fail authentication : continue
         if (!headerToken) {
-            console.log('ERROR IN auth middleware')
+            // console.log('ERROR IN auth middleware')
             res.sendStatus(401)
         }
 

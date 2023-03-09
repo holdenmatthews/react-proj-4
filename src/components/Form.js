@@ -16,7 +16,7 @@ const Form = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
-
+        // console.log('form submit')
         axios.post(`${baseURL}/posts`, {title, content, status, userId}, {
             headers: {
                 authorization: token

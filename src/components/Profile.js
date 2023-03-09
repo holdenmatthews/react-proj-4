@@ -8,8 +8,10 @@ const Profile = () => {
 
     const [posts, setPosts] = useState([])
 
+    const baseURL = 'http://localhost:4000'
+
     const getUserPosts = useCallback(() => {
-        axios.get(`/userposts/${userId}`)
+        axios.get(`${baseURL}/userposts/${userId}`)
             .then(res => setPosts(res.data))
             .catch(err => console.log(err))
     }, [userId])
@@ -19,7 +21,7 @@ const Profile = () => {
     }, [getUserPosts])
 
     const updatePost = (id, status) => {
-        axios.put(`/posts/${id}`, {status: !status}, {
+        axios.put(`${baseURL}/posts/${id}`, {status: !status}, {
             headers: {
                 authorization: token
             }
@@ -33,7 +35,7 @@ const Profile = () => {
     }
 
     const deletePost = id => {
-        axios.delete(`/posts/${id}`, {
+        axios.delete(`${baseURL}/posts/${id}`, {
             headers: {
                 authorization: token
             }

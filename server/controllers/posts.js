@@ -6,13 +6,11 @@ module.exports = {
     try {
       const posts = await Post.findAll({
         where: { privateStatus: false },
-        include: [
-          {
+        include: [{
             model: User,
             required: true,
-            attributes: [`username`],
-          },
-        ],
+            attributes: [`username`]
+          }]
       });
       res.status(200).send(posts);
     } catch (error) {
@@ -27,13 +25,11 @@ module.exports = {
         const { userId } = req.params
         const posts = await Post.findAll({
           where: { userId: userId },
-          include: [
-            {
+          include: [{
               model: User,
               required: true,
-              attributes: [`username`],
-            },
-          ],
+              attributes: [`username`]
+            }]
         });
         res.status(200).send(posts);
       } catch (error) {
@@ -60,11 +56,28 @@ module.exports = {
     }
   },
 
-  editPost: (req, res) => {
-    console.log("edit post");
+  editPost: async (req, res) => {
+    try {
+      const { id } = req.params
+      const { status } = req.body
+      await Post.update({privateStatus: status}, {
+        where: {id: +id}
+      })
+      res.sendStatus(200)
+    } catch (err) {
+      console.log(err)
+      res.sendStatus(400)
+    }
   },
 
-  deletePost: (req, res) => {
-    console.log("delete post");
+  deletePost: async (req, res) => {
+    try {
+      const { id } = req.params
+      await Post.destroy({where: {id: +id}})
+      res.sendStatus(200)
+    } catch (err) {
+      console.log(err)
+      res.sendStatus(400)
+    }
   },
 };

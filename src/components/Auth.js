@@ -22,6 +22,7 @@ const Auth = () => {
             })
             .catch((err) => {
                 console.log(err)
+                alert("That username is already taken :(")
                 setUsername("")
                 setPassword("")
             })
@@ -33,6 +34,7 @@ const Auth = () => {
             })
             .catch((err) => {
                 console.log(err)
+                alert("Unable to login. Incorrect username or password.")
                 setUsername("")
                 setPassword("")
             })
